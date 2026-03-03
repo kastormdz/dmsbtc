@@ -11,6 +11,26 @@ PluginComponent {
     property string currency: "usd"
     property string btcPrice: "..."
     property real lastPrice: 0
+    property int currentProviderIndex: 0
+    
+    // Lista de proveedores para rotación
+    readonly property var providers: [
+        {
+            name: "CoinGecko",
+            url: () => `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${root.currency}`,
+            parse: (data) => data.bitcoin[root.currency]
+        },
+        {
+            name: "Coinbase",
+            url: () => `https://api.coinbase.com/v2/prices/spot?currency=${root.currency.toUpperCase()}`,
+            parse: (data) => parseFloat(data.data.amount)
+        },
+        {
+            name: "Blockchain.info",
+            url: () => `https://blockchain.info/ticker`,
+            parse: (data) => data[root.currency.toUpperCase()].last
+        }
+    ]
     
     // Colores que se usan en la interfaz
     property string defaultColor: "white"
@@ -39,6 +59,7 @@ PluginComponent {
     }
 
     function fetchBtcPrice() {
+        const provider = root.providers[root.currentProviderIndex];
         const xhr = new XMLHttpRequest();
         xhr.timeout = 10000;
         
@@ -47,7 +68,7 @@ PluginComponent {
                 if (xhr.status === 200) {
                     try {
                         const response = JSON.parse(xhr.responseText);
-                        const price = response.bitcoin[root.currency];
+                        const price = provider.parse(response);
                         
                         if (root.lastPrice > 0 && price !== root.lastPrice) {
                             // Si subió va verde, si bajó va rojo
@@ -62,20 +83,35 @@ PluginComponent {
                             minimumFractionDigits: 0
                         });
                     } catch (e) {
-                        console.log("Error al parsear el precio de BTC:", e);
-                        root.btcPrice = "Error";
-                        root.priceColor = root.colorDown;
+                        console.log(`Error al parsear el precio de ${provider.name}:`, e);
+                        tryNextProvider();
                     }
                 } else {
-                    console.log("Error de red o límite de pedidos. Status:", xhr.status);
-                    root.btcPrice = "Offline";
-                    root.priceColor = "gray";
+                    console.log(`Error en ${provider.name}. Status:`, xhr.status);
+                    tryNextProvider();
                 }
             }
         }
         
-        xhr.open("GET", `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${root.currency}`);
+        xhr.open("GET", provider.url());
         xhr.send();
+    }
+
+    function tryNextProvider() {
+        root.currentProviderIndex = (root.currentProviderIndex + 1) % root.providers.length;
+        console.log(`Rotando al siguiente proveedor: ${root.providers[root.currentProviderIndex].name}`);
+        
+        // Marcamos que está intentando otro
+        if (root.btcPrice === "...") root.btcPrice = "Cargando...";
+        
+        // Si ya recorrimos todos y fallaron, mostramos offline
+        if (root.currentProviderIndex === 0) {
+            root.btcPrice = "Offline";
+            root.priceColor = "gray";
+        } else {
+            // Intentamos con el siguiente al toque
+            fetchBtcPrice();
+        }
     }
 
     horizontalBarPill: Component {

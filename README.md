@@ -5,8 +5,8 @@ Este es un plugin para Quickshell que te muestra el precio de Bitcoin al toque e
 ## ¿Qué onda este plugin?
 
 *   Te muestra el precio de Bitcoin en tiempo real (o casi, se actualiza cada un minuto por defecto).
+*   **Rotación de proveedores:** Si un proveedor falla, el plugin rota automáticamente entre CoinGecko, Coinbase y Blockchain.info para que nunca te quedes sin data.
 *   Si el precio sube, se pone verde. Si baja, se pone rojo. Un golazo para no perderte nada.
-*   Usa la API de CoinGecko, así que la data es de confiar.
 
 ## Instalación
 
