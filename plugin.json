@@ -1,0 +1,15 @@
+{
+    "id": "dms-btc-monitor",
+    "name": "BTC Price Monitor",
+    "capabilities": ["dankbar-widget"],
+    "category": "finance",
+    "repo": "https://github.com/kastor/dmsbtc",
+    "description": "Muestra el precio de Bitcoin en la barra de tareas",
+    "version": "1.0.1",
+    "author": "Kastor",
+    "icon": "currency_bitcoin",
+    "type": "widget",
+    "component": "./BtcPrice.qml",
+    "permissions": ["network"],
+    "requires_dms": ">=1.2.0"
+}
