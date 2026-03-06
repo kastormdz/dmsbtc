@@ -80,7 +80,8 @@ PluginComponent {
                         root.btcPrice = price.toLocaleString('en-US', {
                             style: 'currency',
                             currency: root.currency.toUpperCase(),
-                            minimumFractionDigits: 0
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
                         });
                     } catch (e) {
                         console.log(`Error al parsear el precio de ${provider.name}:`, e);
