@@ -1,8 +1,8 @@
 {
-    "id": "dms-btc-monitor",
+    "id": "btcPriceMonitor",
     "name": "BTC Price Monitor",
     "capabilities": ["dankbar-widget"],
-    "category": "finance",
+    "category": "monitoring",
     "repo": "https://github.com/kastor/dmsbtc",
     "description": "Muestra el precio de Bitcoin en la barra de tareas",
     "version": "1.0.1",
@@ -11,5 +11,8 @@
     "type": "widget",
     "component": "./BtcPrice.qml",
     "permissions": ["network"],
-    "requires_dms": ">=1.2.0"
+    "requires_dms": ">=1.2.0",
+    "dependencies": [],
+    "compositors": ["niri", "hyprland", "sway", "wayfire"],
+    "distro": ["any"]
 }

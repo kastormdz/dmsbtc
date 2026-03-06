@@ -1,24 +1,25 @@
-# Monitor de Precio de Bitcoin (dms-btc-monitor)
+# Monitor de Precio de Bitcoin (btcPriceMonitor)
 
-Este es un plugin para Quickshell que te muestra el precio de Bitcoin al toque en tu barra de tareas.
+Este es un plugin para Quickshell que te muestra el precio de Bitcoin al toque en tu barra de tareas de DankMaterialShell (`dms`).
 
 ## ¿Qué onda este plugin?
 
-*   Te muestra el precio de Bitcoin en tiempo real (o casi, se actualiza cada un minuto por defecto).
-*   **Rotación de proveedores:** Si un proveedor falla, el plugin rota automáticamente entre CoinGecko, Coinbase y Blockchain.info para que nunca te quedes sin data.
-*   Si el precio sube, se pone verde. Si baja, se pone rojo. Un golazo para no perderte nada.
+*   **Precio en tiempo real:** Se actualiza cada un minuto por defecto para que no se te pase ninguna.
+*   **Aguante a fallos:** Si un proveedor de precio se cae, el plugin rota automáticamente entre CoinGecko, Coinbase y Blockchain.info. ¡Un caño!
+*   **Estética:** Si el precio sube, se pone verde. Si baja, se pone rojo. Bien visual para que sepas qué está pasando de un vistazo.
 
 ## Instalación
 
-Mandá los archivos a la carpeta de plugins de tu configuración de `dms` y listo el pollo.
+1.  Copiá esta carpeta en `/home/tu-usuario/.config/DankMaterialShell/plugins/dmsbtc/`.
+2.  Reiniciá `dms` y activalo desde la configuración.
 
 ## Configuración
 
-Podés cambiar estas cositas en el archivo `BtcPrice.qml`:
+Podés meter mano en `BtcPrice.qml` para cambiar estas cosas:
 
-*   `currency`: Por defecto está en `usd`, pero si querés podés mandarle otra.
+*   `currency`: Por defecto está en `usd`, pero si querés podés mandarle la moneda que más te guste.
 *   `updateInterval`: El tiempo entre cada actualización (en milisegundos).
 
 ## Autor
 
-Hecho por **Kastor**. Si te sirve, joya.
+Hecho con aguante por **Kastor**. ¡Si te sirvió, pegá el grito!
