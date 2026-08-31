@@ -22,4 +22,4 @@ Podés meter mano en `BtcPrice.qml` para cambiar estas cosas:
 
 ## Autor
 
-Hecho con aguante por **Kastor**. ¡Si te sirvió, pegá el grito!
+by kastor
