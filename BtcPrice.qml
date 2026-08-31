@@ -41,7 +41,7 @@ PluginComponent {
     
     // Intervalos de tiempo
     property int updateInterval: 60000
-    property int colorFlashDuration: 10000 // 10 segundos clavados
+    property int colorFlashDuration: 60000 // 1 minuto clavado
 
     Timer {
         id: updateTimer
