@@ -37,6 +37,7 @@ PluginComponent {
     property string colorUp: "#4CAF50"
     property string colorDown: "#F44336"
     property string priceColor: defaultColor
+    property string priceIndicator: "" // ▲ / ▼ según tendencia
     
     // Intervalos de tiempo
     property int updateInterval: 60000
@@ -51,11 +52,14 @@ PluginComponent {
         onTriggered: fetchBtcPrice()
     }
 
-    // Timer para que el color del precio vuelva a la normalidad después de un cambio
+    // Timer para que el color y el indicador vuelvan a la normalidad después de un cambio
     Timer {
         id: resetColorTimer
         interval: root.colorFlashDuration
-        onTriggered: root.priceColor = root.defaultColor
+        onTriggered: {
+            root.priceColor = root.defaultColor
+            root.priceIndicator = ""
+        }
     }
 
     function fetchBtcPrice() {
@@ -71,8 +75,10 @@ PluginComponent {
                         const price = provider.parse(response);
                         
                         if (root.lastPrice > 0 && price !== root.lastPrice) {
-                            // Si subió va verde, si bajó va rojo
-                            root.priceColor = (price > root.lastPrice) ? root.colorUp : root.colorDown;
+                            // Si subió va verde + ▲, si bajó va rojo + ▼
+                            const isUp = price > root.lastPrice
+                            root.priceColor = isUp ? root.colorUp : root.colorDown
+                            root.priceIndicator = isUp ? "▲" : "▼"
                             resetColorTimer.restart();
                         }
                         
@@ -109,6 +115,7 @@ PluginComponent {
         if (root.currentProviderIndex === 0) {
             root.btcPrice = "Offline";
             root.priceColor = "gray";
+            root.priceIndicator = "";
         } else {
             // Intentamos con el siguiente al toque
             fetchBtcPrice();
@@ -134,6 +141,19 @@ PluginComponent {
                 font.weight: Font.Medium
                 anchors.verticalCenter: parent.verticalCenter
                 
+                Behavior on color {
+                    ColorAnimation { duration: 500 }
+                }
+            }
+
+            Text {
+                visible: root.priceIndicator !== ""
+                text: root.priceIndicator
+                color: root.priceColor
+                font.pixelSize: 11
+                font.bold: true
+                anchors.verticalCenter: parent.verticalCenter
+
                 Behavior on color {
                     ColorAnimation { duration: 500 }
                 }
