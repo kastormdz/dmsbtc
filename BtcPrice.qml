@@ -1,6 +1,8 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.Common
+import qs.Widgets
 import qs.Modules.Plugins
 
 PluginComponent {
@@ -83,12 +85,7 @@ PluginComponent {
                         }
                         
                         root.lastPrice = price;
-                        root.btcPrice = price.toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: root.currency.toUpperCase(),
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        });
+                        root.btcPrice = Math.round(price).toLocaleString();
                     } catch (e) {
                         console.log(`Error al parsear el precio de ${provider.name}:`, e);
                         tryNextProvider();
@@ -126,7 +123,7 @@ PluginComponent {
         Row {
             spacing: 6
             
-            Text {
+            StyledText {
                 text: "₿"
                 color: "#F7931A"
                 font.pixelSize: 14
@@ -134,7 +131,7 @@ PluginComponent {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
-            Text {
+            StyledText {
                 text: root.btcPrice
                 color: root.priceColor
                 font.pixelSize: 13
@@ -146,7 +143,7 @@ PluginComponent {
                 }
             }
 
-            Text {
+            StyledText {
                 visible: root.priceIndicator !== ""
                 text: root.priceIndicator
                 color: root.priceColor
@@ -162,7 +159,7 @@ PluginComponent {
     }
 
     verticalBarPill: Component {
-        Text {
+        StyledText {
             text: "₿"
             color: "#F7931A"
             font.pixelSize: 16
