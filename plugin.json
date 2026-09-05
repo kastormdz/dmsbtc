@@ -6,7 +6,7 @@
     "repo": "https://github.com/kastor/dmsbtc",
     "description": "Muestra el precio de Bitcoin en la barra de tareas",
     "version": "1.0.2",
-    "author": "Kastor",
+    "author": "kastor",
     "icon": "currency_bitcoin",
     "type": "widget",
     "component": "./BtcPrice.qml",

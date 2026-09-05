@@ -1,4 +1,4 @@
-# Monitor de Precio de Bitcoin (btcPriceMonitor)
+# dmsbtc plugin -  Monitor de Precio de Bitcoin para DMS
 
 Este es un plugin para Quickshell que te muestra el precio de Bitcoin al toque en tu barra de tareas de DankMaterialShell (`dms`).
 
