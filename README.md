@@ -2,6 +2,8 @@
 
 Este es un plugin para Quickshell que te muestra el precio de Bitcoin al toque en tu barra de tareas de DankMaterialShell (`dms`).
 
+![Screenshot del plugin](dmsbtc.png)
+
 ## ¿Qué onda este plugin?
 
 *   **Precio en tiempo real:** Se actualiza cada un minuto por defecto para que no se te pase ninguna.
