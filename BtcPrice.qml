@@ -273,9 +273,12 @@ PluginComponent {
                 }
             }
 
+            // Reserva el ancho del glifo aunque no haya tendencia: si la pildora
+            // cambia de ancho en cada actualizacion, la barra se sacude y DMS
+            // re-hace el hit-test de la barra.
             StyledText {
-                visible: root.priceIndicator !== ""
-                text: root.priceIndicator
+                text: root.priceIndicator !== "" ? root.priceIndicator : "▲"
+                opacity: root.priceIndicator !== "" ? 1 : 0
                 color: root.priceColor
                 font.pixelSize: Theme.fontSizeSmall
                 font.weight: Font.Bold
@@ -303,8 +306,8 @@ PluginComponent {
             }
 
             StyledText {
-                visible: root.showPriceInVerticalBar && root.lastPrice > 0
-                text: root.compactPrice(root.lastPrice)
+                visible: root.showPriceInVerticalBar
+                text: root.lastPrice > 0 ? root.compactPrice(root.lastPrice) : "—"
                 color: root.priceColor
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -328,10 +331,14 @@ PluginComponent {
             detailsText: root.offline ? "Sin conexión · último precio conocido" : (root.activeProvider !== "" ? root.activeProvider + " · actualizado " + root.lastUpdateText + " · " + root.currency.toUpperCase() : "Consultando…")
             showCloseButton: true
 
+            // Solo repintamos con el popout abierto. Cerrado, este canvas vive
+            // dentro de una ventana oculta: cualquier trabajo ahi obliga a DMS a
+            // re-mapear la superficie y el popout "aparecia solo" en cada cambio.
             Connections {
                 target: root
                 function onHistoryChanged() {
-                    spark.requestPaint();
+                    if (popout.parentPopout && popout.parentPopout.shouldBeVisible)
+                        spark.requestPaint();
                 }
             }
 
@@ -366,6 +373,7 @@ PluginComponent {
 
                     StyledText {
                         width: parent.width
+                        height: Theme.fontSizeSmall * 2 + 4
                         text: root.trendText()
                         color: Theme.surfaceVariantText
                         font.pixelSize: Theme.fontSizeSmall
@@ -377,7 +385,6 @@ PluginComponent {
                         id: spark
                         width: parent.width
                         height: 64
-                        visible: root.history.length > 1
                         renderStrategy: Canvas.Cooperative
 
                         onPaint: {
@@ -425,8 +432,8 @@ PluginComponent {
 
                     StyledText {
                         width: parent.width
-                        visible: root.history.length > 1
-                        text: "Últimas " + root.history.length + " lecturas"
+                        height: Theme.fontSizeSmall + 6
+                        text: root.history.length > 1 ? "Últimas " + root.history.length + " lecturas" : "Recopilando lecturas…"
                         color: Theme.surfaceVariantText
                         font.pixelSize: Theme.fontSizeSmall
                         horizontalAlignment: Text.AlignHCenter
