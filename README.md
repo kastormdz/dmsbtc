@@ -4,7 +4,11 @@
 
 A plugin for DankMaterialShell (`dms`) that shows the Bitcoin price in your bar and adapts to your theme, your currency and your refresh interval.
 
-![Plugin screenshot](dmsbtc.png)
+![BTC Price Monitor popout](popout.png)
+
+*Click the bar pill (below) to open the popout above: live price, delta since the previous reading, and a sparkline of the recent readings.*
+
+![BTC Price Monitor in the DankBar](dmsbtc.png)
 
 ## What it does
 
